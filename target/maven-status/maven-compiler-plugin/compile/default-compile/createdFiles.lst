@@ -1,4 +1,5 @@
 tech\codingclub\helix\entity\Member.class
+tech\codingclub\helix\entity\LoginResponse.class
 tech\codingclub\helix\entity\SignupResponse.class
 tech\codingclub\helix\Tables.class
 tech\codingclub\helix\entity\WikiResult.class

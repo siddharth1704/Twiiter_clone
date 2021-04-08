@@ -12,8 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 public class BaseController {
     @ExceptionHandler
     public
-    @ResponseBody
     String defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
-        return "error";
+        return "alien";
     }
 }
