@@ -19,17 +19,22 @@ public class Keys {
 	// -------------------------------------------------------------------------
 
 	public static final org.jooq.Identity<tech.codingclub.helix.tables.records.MemberRecord, java.lang.Long> IDENTITY_MEMBER = Identities0.IDENTITY_MEMBER;
+	public static final org.jooq.Identity<tech.codingclub.helix.tables.records.TweetRecord, java.lang.Long> IDENTITY_TWEET = Identities0.IDENTITY_TWEET;
 
 	// -------------------------------------------------------------------------
 	// UNIQUE and PRIMARY KEY definitions
 	// -------------------------------------------------------------------------
 
+	public static final org.jooq.UniqueKey<tech.codingclub.helix.tables.records.FollowerRecord> FOLLOWER_UNI = UniqueKeys0.FOLLOWER_UNI;
+	public static final org.jooq.UniqueKey<tech.codingclub.helix.tables.records.MemberRecord> MEMBER_EMAIL = UniqueKeys0.MEMBER_EMAIL;
 	public static final org.jooq.UniqueKey<tech.codingclub.helix.tables.records.MemberRecord> MEMBER_PKEY = UniqueKeys0.MEMBER_PKEY;
 
 	// -------------------------------------------------------------------------
 	// FOREIGN KEY definitions
 	// -------------------------------------------------------------------------
 
+	public static final org.jooq.ForeignKey<tech.codingclub.helix.tables.records.FollowerRecord, tech.codingclub.helix.tables.records.MemberRecord> FOLLOWER__USER_ID = ForeignKeys0.FOLLOWER__USER_ID;
+	public static final org.jooq.ForeignKey<tech.codingclub.helix.tables.records.FollowerRecord, tech.codingclub.helix.tables.records.MemberRecord> FOLLOWER__FOLLOWING_ID = ForeignKeys0.FOLLOWER__FOLLOWING_ID;
 
 	// -------------------------------------------------------------------------
 	// [#1459] distribute members to avoid static initialisers > 64kb
@@ -37,9 +42,17 @@ public class Keys {
 
 	private static class Identities0 extends org.jooq.impl.AbstractKeys {
 		public static org.jooq.Identity<tech.codingclub.helix.tables.records.MemberRecord, java.lang.Long> IDENTITY_MEMBER = createIdentity(tech.codingclub.helix.tables.Member.MEMBER, tech.codingclub.helix.tables.Member.MEMBER.ID);
+		public static org.jooq.Identity<tech.codingclub.helix.tables.records.TweetRecord, java.lang.Long> IDENTITY_TWEET = createIdentity(tech.codingclub.helix.tables.Tweet.TWEET, tech.codingclub.helix.tables.Tweet.TWEET.ID);
 	}
 
 	private static class UniqueKeys0 extends org.jooq.impl.AbstractKeys {
-		public static final org.jooq.UniqueKey<tech.codingclub.helix.tables.records.MemberRecord> MEMBER_PKEY = createUniqueKey(tech.codingclub.helix.tables.Member.MEMBER, tech.codingclub.helix.tables.Member.MEMBER.EMAIL);
+		public static final org.jooq.UniqueKey<tech.codingclub.helix.tables.records.FollowerRecord> FOLLOWER_UNI = createUniqueKey(tech.codingclub.helix.tables.Follower.FOLLOWER, tech.codingclub.helix.tables.Follower.FOLLOWER.FOLLOWING_ID, tech.codingclub.helix.tables.Follower.FOLLOWER.USER_ID);
+		public static final org.jooq.UniqueKey<tech.codingclub.helix.tables.records.MemberRecord> MEMBER_EMAIL = createUniqueKey(tech.codingclub.helix.tables.Member.MEMBER, tech.codingclub.helix.tables.Member.MEMBER.EMAIL);
+		public static final org.jooq.UniqueKey<tech.codingclub.helix.tables.records.MemberRecord> MEMBER_PKEY = createUniqueKey(tech.codingclub.helix.tables.Member.MEMBER, tech.codingclub.helix.tables.Member.MEMBER.ID);
+	}
+
+	private static class ForeignKeys0 extends org.jooq.impl.AbstractKeys {
+		public static final org.jooq.ForeignKey<tech.codingclub.helix.tables.records.FollowerRecord, tech.codingclub.helix.tables.records.MemberRecord> FOLLOWER__USER_ID = createForeignKey(tech.codingclub.helix.Keys.MEMBER_PKEY, tech.codingclub.helix.tables.Follower.FOLLOWER, tech.codingclub.helix.tables.Follower.FOLLOWER.USER_ID);
+		public static final org.jooq.ForeignKey<tech.codingclub.helix.tables.records.FollowerRecord, tech.codingclub.helix.tables.records.MemberRecord> FOLLOWER__FOLLOWING_ID = createForeignKey(tech.codingclub.helix.Keys.MEMBER_PKEY, tech.codingclub.helix.tables.Follower.FOLLOWER, tech.codingclub.helix.tables.Follower.FOLLOWER.FOLLOWING_ID);
 	}
 }

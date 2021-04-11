@@ -28,11 +28,18 @@ public class MainController extends BaseController {
     public String getQuiz(ModelMap modelMap, HttpServletResponse response, HttpServletRequest request) {
         return "hello";
     }
-    @RequestMapping(method = RequestMethod.GET, value = "/welcome")
+
+    @RequestMapping(method = RequestMethod.GET, value = "/uitest")
+    public String uiTest(ModelMap modelMap, HttpServletResponse response, HttpServletRequest request) {
+        return "uitest";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/welcomeuser")
     public String welcome(ModelMap modelMap, HttpServletResponse response, HttpServletRequest request) {
-       Member x= ControllerUtils.getCurrentMember(request);
-       modelMap.addAttribute("NAME",x.name);
-       return "welcome1";
+        Member s = ControllerUtils.getCurrentMember(request);
+        modelMap.addAttribute("NAME", s.name);
+        modelMap.addAttribute("MEMBER", s);
+        return "welcomeuser";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/signup")

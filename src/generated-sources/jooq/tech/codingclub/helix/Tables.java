@@ -19,7 +19,17 @@ public class Tables {
 	public static final tech.codingclub.helix.tables.Coders CODERS = tech.codingclub.helix.tables.Coders.CODERS;
 
 	/**
+	 * The table public.follower
+	 */
+	public static final tech.codingclub.helix.tables.Follower FOLLOWER = tech.codingclub.helix.tables.Follower.FOLLOWER;
+
+	/**
 	 * The table public.member
 	 */
 	public static final tech.codingclub.helix.tables.Member MEMBER = tech.codingclub.helix.tables.Member.MEMBER;
+
+	/**
+	 * The table public.tweet
+	 */
+	public static final tech.codingclub.helix.tables.Tweet TWEET = tech.codingclub.helix.tables.Tweet.TWEET;
 }

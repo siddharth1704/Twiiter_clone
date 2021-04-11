@@ -17,4 +17,9 @@ public class Sequences {
 	 * The sequence <code>public.member_id_seq</code>
 	 */
 	public static final org.jooq.Sequence<java.lang.Long> MEMBER_ID_SEQ = new org.jooq.impl.SequenceImpl<java.lang.Long>("member_id_seq", tech.codingclub.helix.Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
+
+	/**
+	 * The sequence <code>public.tweet_id_seq</code>
+	 */
+	public static final org.jooq.Sequence<java.lang.Long> TWEET_ID_SEQ = new org.jooq.impl.SequenceImpl<java.lang.Long>("tweet_id_seq", tech.codingclub.helix.Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
 }

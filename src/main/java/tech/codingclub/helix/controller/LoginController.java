@@ -49,8 +49,10 @@ public class LoginController extends BaseController {
         List<Member> x= (List<Member>) GenericDB.getRows(tech.codingclub.helix.tables.Member.MEMBER,Member.class, tech.codingclub.helix.tables.Member.MEMBER.EMAIL.eq(member.email).and(tech.codingclub.helix.tables.Member.MEMBER.PASSWORD.eq(member.password)),1);
         if(x!=null && x.size()>0){
             //email and password is correct
-            ControllerUtils.setUserSession(request,member);
+
             Member memberTemp=x.get(0);
+            memberTemp.role="cm";
+            ControllerUtils.setUserSession(request,memberTemp);
             return new LoginResponse(memberTemp.id, true,"Login Succesfull");
         }else{
             //wrong credentials
