@@ -39,10 +39,10 @@
                                                          <div class="joke">
                                                             <div class="joke_wrapper">
                                                                <div class="joke_block joke_block--header">
-                                                                  <span class="joke_element joke_element--author-name">{{name}}</span><span class="joke_element joke_element--author-username">@realBigDaddy</span>
+                                                                  <span class="joke_element joke_element--author-name">{{author_name}}</span><span class="joke_element joke_element--author-username">{{email}}</span>
                                                                   <div class="joke_element joke_element--author-img"><img src="/static/images/default-user.jpg"></div>
                                                                </div>
-                                                               <div class="joke_block joke_block--text">{{tweet_text}}</div>
+                                                               <div class="joke_block joke_block--text">{{message}}</div>
                                                                <div class="joke_block joke_block--footer">
                                                                   <ul class="nav nav--joke_rebound">
                                                                      <li class="nav_item">
@@ -66,46 +66,7 @@
                                                       </div>
                            {{/data}}
                         </script>
-                        <script type="text/javascript">
-                           var tweet_ui_source=$("#tweet_template").html();
-                           var tweet_template=Handlebars.compile(tweet_ui_source);
-                           var tweet_data={
-                             data:[
-                              {"name":"Siddharth","tweet_text":"Chal ja bhai"},
-                              {"name":"Siddharth","tweet_text":"Chal ja bhai"}
-                             ]
-                           };
-                            $("#tweet-content").html(tweet_template(tweet_data));
-                        </script>
-                        <div class="feed_item">
-                           <div class="joke">
-                              <div class="joke_wrapper">
-                                 <div class="joke_block joke_block--header">
-                                    <span class="joke_element joke_element--author-name">Macready</span><span class="joke_element joke_element--author-username">@realBigDaddy</span>
-                                    <div class="joke_element joke_element--author-img"><img src="/static/images/default-user.jpg"></div>
-                                 </div>
-                                 <div class="joke_block joke_block--text">Why didn’t the skeleton cross the road? Because he had no guts.</div>
-                                 <div class="joke_block joke_block--footer">
-                                    <ul class="nav nav--joke_rebound">
-                                       <li class="nav_item">
-                                          <a class="nav_link nav_link--upvotes" href="#">
-                                          <i class="far fa-heart"></i>
-                                          4
-                                          </a>
-                                       </li>
-                                       <li class="nav_item">
-                                          <a class="nav_link nav_link--downvotes" href="#">
-                                             <svg name="joke_downvotes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                                <path d="M3.491 11.432v3.568h-2.254v-4.592c0-.779.366-1.512.989-1.979l4.821-3.621c.678-.509 1.078-.603 2.962-1.305.308-.114.513-.408.513-.737v-2.767h2.226v3.904c0 .688-.412 1.308-1.045 1.574l-2.481 1.045 2.537 3.433c1.046-.764 1.726-1.459 2.937-1.225l6.167 1.195-.529 2.713-4.865-.862c-1.489-.264-2.649 1.422-1.777 2.6 1.446 1.955 1.901 2.427 2.236 3.554l1.004 3.382-2.498 1.477-1.317-4.101c-.667-2.08-3.731-2.829-5.16-4.954l-2.839-4.226c-.723.563-1.627 1.037-1.627 1.924zm.096-10.941c-1.428 0-2.587 1.158-2.587 2.586 0 1.429 1.159 2.586 2.587 2.586 1.429 0 2.587-1.158 2.587-2.586.001-1.428-1.157-2.586-2.587-2.586zm17.184 23.508c3.614 0 2.383-4.295-.504-2.512-1.028.58-2.828 1.695-4.166 2.512h4.67z"></path>
-                                             </svg>
-                                             339
-                                          </a>
-                                       </li>
-                                    </ul>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
+
                         <div class="feed_footer">
                            <div class="pagination pagination--infinite-scroll"><button class="pagination_button_next">Load more...</button></div>
                         </div>
@@ -154,13 +115,38 @@
                data: document.getElementById("tweet-message").value,
                success: function(response){
                    if(!!response){
-                      alert(response);
+                      window.location.reload();
                    }
                },
                contentType: 'application/json'
              });
 
            });
+        var tweet_ui_source=$("#tweet_template").html();
+        var tweet_template=Handlebars.compile(tweet_ui_source);
+
+        window.lastSeenTweet=9999999;
+        function showTweets(){
+         $.ajax({
+               type: "POST",
+               url: "/user/public-tweet/"+window.lastSeenTweet,
+               success: function(response){
+               if(!!response){
+                  var tweet_data={
+                        data:response
+                     };
+               var size=response.length;
+               window.lastSeenTweet=response[size-1].id;
+               $("#tweet-content").append(tweet_template(tweet_data));
+               }
+                                               },
+              contentType: 'application/json'
+          });
+         }
+         showTweets();
+          $(".pagination--infinite-scroll").click(function(){
+                showTweets();
+               });
       </script>
    </body>
 </html>

@@ -34,13 +34,6 @@ public class MainController extends BaseController {
         return "uitest";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/welcomeuser")
-    public String welcome(ModelMap modelMap, HttpServletResponse response, HttpServletRequest request) {
-        Member s = ControllerUtils.getCurrentMember(request);
-        modelMap.addAttribute("NAME", s.name);
-        modelMap.addAttribute("MEMBER", s);
-        return "welcomeuser";
-    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/signup")
     public String signup(ModelMap modelMap, HttpServletResponse response, HttpServletRequest request) {

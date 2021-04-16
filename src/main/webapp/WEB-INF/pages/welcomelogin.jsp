@@ -194,7 +194,7 @@
           success: function(response){
             if(!!response){
               if(response.is_logined=== true){
-                   location.href="/welcomeuser";
+                   location.href="/user/welcomeuser";
               }else{
                    var error=response.message;
                      $("#error").show;

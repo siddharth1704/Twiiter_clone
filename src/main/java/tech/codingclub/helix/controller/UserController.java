@@ -20,12 +20,46 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-/**
- * User: rishabh
- */
+
 @Controller
 @RequestMapping("/user")
 public class UserController extends BaseController {
+
+    @RequestMapping(method = RequestMethod.GET, value = "/welcomeuser")
+    public String welcomeUser(ModelMap modelMap, HttpServletResponse response, HttpServletRequest request) {
+        Member s = ControllerUtils.getCurrentMember(request);
+
+        List<Tweet> data= (List<Tweet>) GenericDB.getRows(tech.codingclub.helix.tables.Tweet.TWEET,Tweet.class,null,3, tech.codingclub.helix.tables.Tweet.TWEET.CREATED_AT.desc());
+        modelMap.addAttribute("NAME", s.name);
+        modelMap.addAttribute("MEMBER", s);
+        return "welcomeuser";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/public-tweet/{id}")
+
+    public
+    @ResponseBody
+    List<TweetUI> fetchTweet(@PathVariable("id") Long id, HttpServletRequest request, HttpServletResponse response) {
+        Condition condition= tech.codingclub.helix.tables.Tweet.TWEET.ID.lessThan(id);
+        List<Tweet> data= (List<Tweet>) GenericDB.getRows(tech.codingclub.helix.tables.Tweet.TWEET,Tweet.class,null,3, tech.codingclub.helix.tables.Tweet.TWEET.ID.desc());
+        Set <Long> memberIds=new HashSet<Long>();
+        for(Tweet tweet:data){
+            memberIds.add(tweet.author_id);
+        }
+        HashMap<Long,Member> memberHashMap= new HashMap<Long, Member>();
+        Condition memberCondition= tech.codingclub.helix.tables.Member.MEMBER.ID.in(memberIds);
+        List<Member> members= (List<Member>) GenericDB.getRows(tech.codingclub.helix.tables.Member.MEMBER,Member.class,memberCondition,null);
+        ArrayList<TweetUI> tweetUIS=new ArrayList<TweetUI>();
+        for(Member member:members){
+            memberHashMap.put(member.id,member);
+        }
+        for(Tweet tweet:data){
+            Member member=memberHashMap.get(tweet.author_id);
+            TweetUI tweetUI=new TweetUI(tweet,member);
+            tweetUIS.add(tweetUI);
+        }
+        return tweetUIS;
+    }
 
 
     @RequestMapping(method = RequestMethod.POST, value = "/create-post")
