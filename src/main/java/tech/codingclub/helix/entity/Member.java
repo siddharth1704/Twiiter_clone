@@ -3,6 +3,12 @@ package tech.codingclub.helix.entity;
 
 public class Member extends MemberBase {
 
+    public boolean is_followed;
+
+    public boolean isIs_followed() {
+        return is_followed;
+    }
+
     public String getEmail() {
         return email;
     }

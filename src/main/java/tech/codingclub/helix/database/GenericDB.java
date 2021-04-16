@@ -3,6 +3,7 @@ package tech.codingclub.helix.database;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
+import tech.codingclub.helix.tables.Follower;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -104,6 +105,22 @@ public class GenericDB<T> {
     }
 
     public static void main(String[] args) {
+    }
+
+    public static boolean deleteRow(TableLike<?> table, Condition condition) {
+        Connection conn = null;
+        try {
+            conn = databaseConnectionPool.getConnection();
+            DSLContext create = DSL.using(conn, SQLDialect.POSTGRES);
+            create.delete(table.asTable()).where(condition).execute();
+            return true;
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            databaseConnectionPool.leaveConnection(conn);
+        }
+
+        return false;
     }
 
     public T getMinFromTable(Field<?> x, TableLike<?> table, Condition condition) {

@@ -22,6 +22,9 @@
                                  <i class="fab fa-twitter fa-3x"></i>
                               </a>
                            </div>
+                            <div class="navbar_header">   <div class="joke_element joke_element--author-img"><img src="/static/images/default-user.jpg"></div>
+
+                                                      </div>
 
                         </div>
                      </div>
